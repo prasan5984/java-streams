@@ -8,17 +8,15 @@ import java.util.stream.Stream;
 public class ListUseCase {
 
     public static void main(String[] args) {
-        System.out.println(toList(IntStream.range(0, 10)
+        System.out.println(toList(IntStream.range(1, 10000)
                                            .boxed()));
     }
 
     private static <T> List<T> toList(Stream<T> stream) {
-        return stream.reduce(new ArrayList<>(), (l, e) -> {
-            l.add(e);
-            return l;
-        }, (l1, l2) -> {
-            l1.addAll(l2);
-            return l1;
-        });
+        return stream
+                .parallel()
+                .collect(() -> new ArrayList<>(),
+                        (list, e) -> list.add(e),
+                        (l1, l2) -> l1.addAll(l2));
     }
 }
