@@ -9,8 +9,9 @@ public class CharacterStream {
         return strList.stream()
                       .collect(ArrayList::new,
                               (l, s) -> {
-                                  for (char c : s.toCharArray())
-                                      l.add(c);
+                                  for (char c : s.toCharArray()) {
+                                      if (Character.isLetter(c)) l.add(c);
+                                  }
                               },
                               ArrayList::addAll);
     }
