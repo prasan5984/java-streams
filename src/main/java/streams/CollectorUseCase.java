@@ -1,19 +1,17 @@
 package streams;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CollectorUseCase {
 
-    private static Map<String, List<Student>> groupByDept(List<Student> list) {
+    private static Map<String, List<String>> groupByDept(List<Student> list) {
         return list.stream()
                    .collect(
                            Collectors.groupingBy(
                                    Student::getDept,
-                                   HashMap::new,
-                                   Collectors.toList()
+                                   Collectors.mapping(Student::getName, Collectors.toList())
                            )
                    );
     }
